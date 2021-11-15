@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Nov 13 2021
+@author: Kopal Garg
+"""
 import timesynth as ts
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,6 +17,7 @@ def main(type, num_samples, seq_length):
     for i in range(num_samples):
         if type=='irregularly_sampled_sinusoid':
             x = irregularly_sampled_sinusoid(seq_length=seq_length)
+            
             signal_in.append(x)
 
     print(type, 'saved')
@@ -25,18 +31,31 @@ def main(type, num_samples, seq_length):
     print("x_test shape", x_test.shape)
 
     # save a sample plot
-    plt.plot(x_train[0])
-    
+    plt.plot(np.transpose(x_train[0,:,:]))
+
     return x_train, x_test, plt
 
 def irregularly_sampled_sinusoid(seq_length):
 
+    # signal 1
     white_noise = ts.noise.GaussianNoise(std=0.3)
     sinusoid = ts.signals.Sinusoidal(frequency=0.25)
-    time_series = ts.TimeSeries(sinusoid, noise_generator=white_noise)
-    sample, signals, error = time_series.sample(np.array(range(seq_length)))
+    time_series_1 = ts.TimeSeries(sinusoid, noise_generator=white_noise)
+    sample_1, signals, error = time_series_1.sample(np.array(range(seq_length)))
 
-    return np.array(sample)
+    # signal 2
+    white_noise = ts.noise.GaussianNoise(std=0.25)
+    sinusoid = ts.signals.Sinusoidal(frequency=0.25)
+    time_series_2 = ts.TimeSeries(sinusoid, noise_generator=white_noise)
+    sample_2, signals, error = time_series_2.sample(np.array(range(seq_length)))
+
+    # signal 3
+    white_noise = ts.noise.GaussianNoise(std=0.2)
+    sinusoid = ts.signals.Sinusoidal(frequency=0.25)
+    time_series_3 = ts.TimeSeries(sinusoid, noise_generator=white_noise)
+    sample_3, signals, error = time_series_3.sample(np.array(range(seq_length)))
+
+    return np.stack((np.array(sample_1), np.array(sample_2), np.array(sample_3)))
 
 
 def save_data(path,array):
