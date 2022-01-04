@@ -8,7 +8,6 @@ import pandas as pd
 import os
 import sys
 import json
-import numpy as np
 import pickle as pkl
 
 def load_simulated_sinusoid(data_path):
